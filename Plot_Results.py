@@ -1,6 +1,5 @@
 import json
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import numpy as np
 from datetime import datetime
 
