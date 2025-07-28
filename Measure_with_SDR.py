@@ -44,7 +44,7 @@ def add_data_to_file(time, frequency, power):
         f.write(json.dumps(data) + "\n")
 
 # -------------------- Hardware Init ----------------------- #
-sdr = adi.ad9361(uri="137.194.172.35")
+sdr = adi.ad9361(uri="ip:137.194.172.35")
 sdr.rx_rf_bandwidth           = int(BW)
 sdr.sample_rate               = int(Fs)
 sdr.rx_enabled_channels       = [0]

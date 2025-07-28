@@ -33,7 +33,7 @@ Tc = 5                                                          # Capture period
 Tc_secs = Tc * 60                                               # Capture period in seconds
 
 # -------------------- Hardware Init ----------------------- #
-sdr = adi.Pluto("usb:0.1.5")
+sdr = adi.ad9361(uri="ip:137.194.172.35")
 sdr.rx_rf_bandwidth           = int(BW)
 sdr.sample_rate               = int(Fs)
 sdr.rx_enabled_channels       = [0]
