@@ -31,7 +31,7 @@ calibration_offset = 0.0                                              # Calibrat
 orig_antenna_gains = np.loadtxt('Antenna_Gains.csv', delimiter=',')   # Vector to store gains
 
 # Time parameters
-Tc = 5                                                          # Capture period in minutes
+Tc = 10                                                          # Capture period in minutes
 Tc_secs = Tc * 60                                               # Capture period in seconds
 
 # File export parameters
@@ -44,7 +44,7 @@ def add_data_to_file(time, frequency, power):
         f.write(json.dumps(data) + "\n")
 
 # -------------------- Hardware Init ----------------------- #
-sdr = adi.Pluto("usb:0.1.5")
+sdr = adi.ad9361(uri="137.194.172.35")
 sdr.rx_rf_bandwidth           = int(BW)
 sdr.sample_rate               = int(Fs)
 sdr.rx_enabled_channels       = [0]
@@ -61,10 +61,11 @@ coherent_gain_dB = -20 * np.log10(np.sum(w) / samples_per_frame)
 while (True):
     freq_segments = []
     pow_segments  = []
+    settling_time = 0.1
     for n_freq, LO in enumerate(freqs):
         print(f"Acquiring data at frequency {LO / 1e6:.2f} MHz")
         sdr.rx_lo = int(LO)                              # Set the LO frequency
-        time.sleep(0.1)                                    # Allow time for the SDR to adjust
+        time.sleep(settling_time)                        # Allow time for the SDR to adjust
 
         # Collect data
         data = sdr.rx()
@@ -97,6 +98,6 @@ while (True):
     # Add data to file
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     add_data_to_file(current_time, concat_freqs, concat_pows)
-    time.sleep(Tc_secs)  # Wait for the next capture period
+    time.sleep(Tc_secs - len(freqs)*settling_time)  # Wait for the next capture period
 
 # --------------------------------------------------------- #
