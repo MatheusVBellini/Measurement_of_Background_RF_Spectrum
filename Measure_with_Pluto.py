@@ -81,7 +81,7 @@ while (True):
         mag_dB = 20 * np.log10(np.abs(X))
         f_rf = f_bb + LO
         antenna_gains = np.interp(f_rf, orig_freqs, orig_antenna_gains)
-        mag_dB += coherent_gain_dB #- antenna_gains
+        mag_dB += coherent_gain_dB - antenna_gains
 
         # Save data
         freq_segments.append(f_rf)
