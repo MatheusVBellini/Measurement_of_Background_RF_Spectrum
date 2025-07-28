@@ -17,10 +17,10 @@ from datetime import datetime
 BW          = 25e6                                              # Signal bandwidth
 f_start     = 500e6                                             # Start frequency
 f_stop      = 4.8e9                                             # Stop frequency
-f_step      = BW/2                                              # Frequency step
+f_step      = BW*(2/3)                                                # Frequency step
 orig_f_step = 100e6                                             # Original frequency step
-orig_freqs  = np.arange(f_start, f_stop + orig_f_step, orig_f_step) 
-freqs = np.arange(f_start, f_stop + f_step, f_step)            
+orig_freqs  = np.arange(f_start, f_stop + orig_f_step, orig_f_step)
+freqs = np.arange(f_start, f_stop + f_step, f_step)
 
 # Sampling parameters
 Fs                = int(2.3*BW)                                 # Baseband sampling frequency
@@ -37,20 +37,20 @@ Tc_secs = Tc * 60                                               # Capture period
 # File export parameters
 filename = "measurements" + datetime.now().strftime("_%Y%m%d_%H%M%S") + ".jsonl"
 with open(filename, 'w') as f:
-    pass  
+    pass
 def add_data_to_file(time, frequency, power):
     data = {"Timestamp": time, "Frequencies (Hz)": frequency, "Relative Power (dB)": power}
     with open(filename, 'a') as f:
         f.write(json.dumps(data) + "\n")
 
 # -------------------- Hardware Init ----------------------- #
-sdr = adi.Pluto("usb:1.8.5")
+sdr = adi.Pluto("usb:0.1.5")
 sdr.rx_rf_bandwidth           = int(BW)
 sdr.sample_rate               = int(Fs)
 sdr.rx_enabled_channels       = [0]
 sdr.gain_control_mode_chan0   = "manual"
 sdr.rx_buffer_size            = samples_per_frame
-sdr.rx_hardwaregain_chan0     = 35   
+sdr.rx_hardwaregain_chan0     = 35
 time.sleep(1)  # Allow time for the SDR to adjust
 
 # -------------------- Capture Loop ----------------------- #
@@ -80,8 +80,8 @@ while (True):
         # Calculate power spectrum
         mag_dB = 20 * np.log10(np.abs(X))
         f_rf = f_bb + LO
-        antenna_gains = np.interp(f_rf, orig_freqs, orig_antenna_gains) 
-        mag_dB += coherent_gain_dB - antenna_gains
+        antenna_gains = np.interp(f_rf, orig_freqs, orig_antenna_gains)
+        mag_dB += coherent_gain_dB #- antenna_gains
 
         # Save data
         freq_segments.append(f_rf)

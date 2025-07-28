@@ -30,7 +30,7 @@ Fsig_offset       = 1.00125e6   # APPROXIMATE Offset of the signal from the cent
 Fs                = 30.72e6     # Baseband sampling frequency
 
 # Create radio
-sdr = adi.Pluto("usb:1.8.5")
+sdr = adi.Pluto("usb:0.5.5")
 
 # Number of acquisitions
 N_acq = 15
