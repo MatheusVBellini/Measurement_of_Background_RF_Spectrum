@@ -25,8 +25,8 @@ Fs                = int(2.3*BW)                                 # Baseband sampl
 samples_per_frame = 2**13                                       # Samples per capture
 
 # Gain parameters
-calibration_offset = 0.0                                              # Calibration offset for gain
-orig_antenna_gains = np.loadtxt('Antenna_Gains.csv', delimiter=',')   # Vector to store gains
+calibration_offset = 0.0                                                                # Calibration offset for gain
+orig_antenna_gains = np.loadtxt('data/measurements/Antenna_Gains.csv', delimiter=',')   # Vector to store gains
 
 # Time parameters
 Tc = 5                                                          # Capture period in minutes

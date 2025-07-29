@@ -4,10 +4,11 @@ import numpy as np
 from datetime import datetime
 
 # --------------------  Parse File ----------------------- #
+path = "data/measurements/"
 filename = "measurements_20250725_165539.jsonl"
+filename = path + filename
 with open(filename, 'r') as file:
     measurements = json.load(file)
-print(measurements.keys())
 freqs = np.array(measurements['Frequencies (Hz)'])
 power = np.array(measurements['Relative Power (dB)'])
 

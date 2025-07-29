@@ -21,4 +21,4 @@ d = 1.815;
 G = 10.^((S21-20*log10(lambda./(4*pi*d)))./20);
 G_dB = 10*log10(G);
 
-dlmwrite('Antenna_Gains.csv', G_dB, ',');
+dlmwrite('data/measurements/Antenna_Gains.csv', G_dB, ',');

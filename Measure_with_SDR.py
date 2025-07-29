@@ -27,15 +27,15 @@ Fs                = int(2.3*BW)                                 # Baseband sampl
 samples_per_frame = 2**13                                       # Samples per capture
 
 # Gain parameters
-calibration_offset = 0.0                                              # Calibration offset for gain
-orig_antenna_gains = np.loadtxt('Antenna_Gains.csv', delimiter=',')   # Vector to store gains
+calibration_offset = 0.0                                                                # Calibration offset for gain
+orig_antenna_gains = np.loadtxt('data/measurements/Antenna_Gains.csv', delimiter=',')   # Vector to store gains
 
 # Time parameters
 Tc = 10                                                          # Capture period in minutes
 Tc_secs = Tc * 60                                               # Capture period in seconds
 
 # File export parameters
-filename = "measurements" + datetime.now().strftime("_%Y%m%d_%H%M%S") + ".jsonl"
+filename = "data/measurements/measurements" + datetime.now().strftime("_%Y%m%d_%H%M%S") + ".jsonl"
 with open(filename, 'w') as f:
     pass
 def add_data_to_file(time, frequency, power):
