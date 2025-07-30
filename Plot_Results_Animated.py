@@ -20,10 +20,8 @@ def stream_data(filepath):
 # -----------------------  Plot -------------------------- #
 data_stream = stream_data(filename)
 
-# grab first two frames (and keep both freq arrays in case they ever change)
 t0, f0, p0 = next(data_stream)
 t1, f1, p1 = next(data_stream)
-
 fig, ax = plt.subplots(figsize=(16, 8))
 
 # the spectrum line
@@ -92,7 +90,6 @@ def update(_):
             t1, f1, p1 = next(data_stream)
             step = 0
         except StopIteration:
-            # no more data → stop updating
             return [line] + annotations
 
     # return all artists that changed
@@ -100,3 +97,4 @@ def update(_):
 
 ani = FuncAnimation(fig, update, interval=20, blit=False)
 plt.show()
+# -------------------------------------------------------- #
