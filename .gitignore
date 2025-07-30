@@ -1,3 +1,4 @@
 env_*/
 __pycache__/
+**/*.jsonl
 **/*.zip
