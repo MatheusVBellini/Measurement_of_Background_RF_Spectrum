@@ -6,7 +6,7 @@ from datetime import datetime
 
 # --------------------  Aux Functions ----------------------- #
 path = "data/measurements/"
-filename = path + "measurements_20250728_164416.jsonl"
+filename = path + "BlockC.jsonl"
 
 def stream_data(filepath):
     with open(filepath, "rb") as f:
