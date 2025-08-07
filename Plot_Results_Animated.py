@@ -3,11 +3,17 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
 from datetime import datetime
+import sys
+import os
+
+# --------------------  Parse Command Line ----------------------- #
+if len(sys.argv) != 2:
+    print(f"Usage: python {os.path.basename(__file__)} <path_to_jsonl_file>")
+    sys.exit(1)
+
+filename = sys.argv[1]
 
 # --------------------  Aux Functions ----------------------- #
-path = "data/measurements/"
-filename = path + "BlockC.jsonl"
-
 def stream_data(filepath):
     with open(filepath, "rb") as f:
         for line in f:
@@ -29,7 +35,7 @@ line, = ax.plot(f0, p0, linewidth=1.5, antialiased=True)
 
 # axis labels
 ax.set_xlabel("Frequency (Hz)")
-ax.set_ylabel("Relative Power (dB)")
+ax.set_ylabel("Power (dBm)")
 
 # fixed axes limits
 ax.set_xlim(f0.min(), f0.max())

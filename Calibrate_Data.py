@@ -1,10 +1,17 @@
 import json
 import numpy as np
+import sys
+import os
 
-offset_dB = 0
-filepath = "data/measurements/"
-filename = "3b07.jsonl"
-input_file = filepath + filename
+# Parse command line
+if len(sys.argv) != 2:
+    print(f"Usage: python {os.path.basename(__file__)} <path_to_jsonl_file>")
+    sys.exit(1)
+
+input_file = sys.argv[1]
+
+# Generate output file
+offset_dB = -56   # measured in lab with reference signal
 output_file = input_file.replace(".jsonl", "_calibrated.jsonl")
 
 # Progress estimation logic
@@ -24,7 +31,10 @@ with open(input_file, "r", encoding="utf-8") as fin, \
         # add fixed offset to every power sample
         entry = json.loads(line)
         p = np.array(entry["Relative Power (dB)"], dtype=float)
-        entry["Relative Power (dB)"] = (p + offset_dB).tolist()
+        p = p + offset_dB
+        #p = np.where(p > -10, p + offset_dB, p)
+        #p = np.where(p < -20, -20, p)
+        entry["Relative Power (dB)"] = p.tolist()
         fout.write(json.dumps(entry) + "\n")
 
         # Update statistics
